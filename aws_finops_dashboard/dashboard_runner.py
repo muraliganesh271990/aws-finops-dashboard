@@ -42,10 +42,7 @@ from aws_finops_dashboard.visualisations import create_trend_bars
 
 console = Console()
 
-# ... [rest of your imports remain unchanged]
-
 def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> None:
-    """Generate and export an audit report."""
     console.print("[bold bright_cyan]Preparing your audit report...[/]")
     table = Table(
         Column("Profile", justify="center"),
@@ -55,7 +52,6 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
         Column("Unused Volumes"),
         Column("Unused EIPs"),
         Column("Budget Alerts"),
-        # New columns for extended FinOps features:
         Column("S3 Class Usage & Lifecycle"),
         Column("Compute Optimizer"),
         Column("RDS Storage & Idle Check"),
@@ -80,7 +76,6 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
         account_id = get_account_id(session) or "Unknown"
         regions = args.regions or get_accessible_regions(session)
 
-        # Existing data collection logic (untagged, stopped, etc.)
         try:
             untagged = get_untagged_resources(session, regions)
             anomalies = []
@@ -125,16 +120,14 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
             alerts = ["No budgets exceeded"]
 
         # --------- NEW: Placeholder values for new columns ---------
-        # TODO: Replace these with calls to actual data-gathering logic
-        s3_class_usage = ""  # Example: get_s3_class_usage(session, regions)
-        compute_optimizer = ""  # Example: get_compute_optimizer(session, regions)
-        rds_storage_idle = ""  # Example: get_rds_storage_idle(session, regions)
-        unused_snapshots = ""  # Example: get_unused_snapshots(session, regions)
-        reserved_instance_usage = ""  # Example: get_reserved_instance_usage(session, regions)
-        iam_analysis = ""  # Example: get_iam_analysis(session, regions)
-        cloudwatch_storage_analysis = ""  # Example: get_cloudwatch_storage_analysis(session, regions)
-        scheduling_opportunities = ""  # Example: get_scheduling_opportunities(session, regions)
-        # ----------------------------------------------------------
+        s3_class_usage = ""  # TODO: get_s3_class_usage(session, regions)
+        compute_optimizer = ""  # TODO: get_compute_optimizer(session, regions)
+        rds_storage_idle = ""  # TODO: get_rds_storage_idle(session, regions)
+        unused_snapshots = ""  # TODO: get_unused_snapshots(session, regions)
+        reserved_instance_usage = ""  # TODO: get_reserved_instance_usage(session, regions)
+        iam_analysis = ""  # TODO: get_iam_analysis(session, regions)
+        cloudwatch_storage_analysis = ""  # TODO: get_cloudwatch_storage_analysis(session, regions)
+        scheduling_opportunities = ""  # TODO: get_scheduling_opportunities(session, regions)
 
         audit_data.append(
             {
@@ -156,7 +149,6 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
             }
         )
 
-        # Data for JSON which includes raw audit data
         raw_audit_data.append(
             {
                 "profile": profile,
@@ -199,7 +191,7 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
         "[bold bright_cyan]Note: The dashboard only lists untagged EC2, RDS, Lambda, ELBv2.\n[/]"
     )
 
-    if args.report_name:  # Ensure report_name is provided for any export
+    if args.report_name:
         if args.report_type:
             for report_type in args.report_type:
                 if report_type == "csv":
@@ -226,3 +218,8 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
                         console.print(
                             f"[bright_green]Successfully exported to PDF format: {pdf_path}[/]"
                         )
+
+def run_dashboard(args: argparse.Namespace) -> int:
+    # ...rest of your dashboard logic...
+    # This function must exist for CLI/main.py!
+    pass  # Replace with your actual dashboard logic
