@@ -1,3 +1,47 @@
+import argparse
+from collections import defaultdict
+from typing import Any, Dict, List, Optional, Tuple
+
+import boto3
+from rich import box
+from rich.console import Console
+from rich.progress import track
+from rich.status import Status
+from rich.table import Column, Table
+
+from aws_finops_dashboard.aws_client import (
+    get_accessible_regions,
+    get_account_id,
+    get_aws_profiles,
+    get_budgets,
+    get_stopped_instances,
+    get_untagged_resources,
+    get_unused_eips,
+    get_unused_volumes,
+)
+from aws_finops_dashboard.cost_processor import (
+    export_to_csv,
+    export_to_json,
+    get_cost_data,
+    get_trend,
+)
+from aws_finops_dashboard.helpers import (
+    clean_rich_tags,
+    export_audit_report_to_pdf,
+    export_cost_dashboard_to_pdf,
+    export_audit_report_to_csv,
+    export_audit_report_to_json,
+    export_trend_data_to_json,
+)
+from aws_finops_dashboard.profile_processor import (
+    process_combined_profiles,
+    process_single_profile,
+)
+from aws_finops_dashboard.types import ProfileData
+from aws_finops_dashboard.visualisations import create_trend_bars
+
+console = Console()
+
 # ... [rest of your imports remain unchanged]
 
 def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> None:
