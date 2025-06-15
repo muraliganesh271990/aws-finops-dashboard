@@ -222,4 +222,4 @@ def _run_audit_report(profiles_to_use: List[str], args: argparse.Namespace) -> N
 def run_dashboard(args: argparse.Namespace) -> int:
     # ...rest of your dashboard logic...
     # This function must exist for CLI/main.py!
-    pass  # Replace with your actual dashboard logic
+    return 0  # Replace with your actual dashboard logic
